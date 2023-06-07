@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: order-service
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 5"]
+          ports:
+            - containerPort: 9002
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://bookstore-db/order_db
+            - name: SPRING_FLYWAY_URL
+              value: jdbc:postgresql://bookstore-db/order_db
+            - name: SPRING_PROFILES_ACTIVE
+              value: container
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server
+            - name: APP_CATALOG-SERVICE-URL
+              value: http://catalog-service
