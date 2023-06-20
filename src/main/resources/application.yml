@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: order-service
+
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-read-timeout: 5000
+      request-connect-timeout: 5000
+      fail-fast: false
+      retry:
+        max-attempts: 3
+        initial-interval: 3000
+        multiplier: 1:1
+        max-interval: 5000
+
+    function:
+      definition: dispatchOrder
+    stream:
+      bindings:
+        dispatchOrder-in-0:
+          destination: order-dispatched
+          group: ${spring.application.name}
+        acceptOrder-out-0:
+          destination: order-accepted
+    rabbit:
+      bindings:
+        acceptOrder-out-0:
+          producer:
+            transacted: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
+
+server:
+  port: 9002
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s

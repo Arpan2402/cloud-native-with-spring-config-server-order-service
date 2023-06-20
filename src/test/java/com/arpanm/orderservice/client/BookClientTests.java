@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class BookClientTests {
 

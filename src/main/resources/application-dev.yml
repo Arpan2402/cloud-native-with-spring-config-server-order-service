@@ -1,0 +1,17 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/order_db
+    username: user
+    password: password
+    pool:
+      initial-size: 5
+      max-size: 10
+      max-create-connection-time: 2s
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/order_db
+    user: user
+    password: password
+
+app:
+  catalog-service-url: http://localhost:9001

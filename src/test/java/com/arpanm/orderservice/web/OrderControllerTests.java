@@ -4,7 +4,6 @@ import com.arpanm.orderservice.domain.OrderStatus;
 import com.arpanm.orderservice.dto.OrderRequest;
 import com.arpanm.orderservice.dto.OrderResponse;
 import com.arpanm.orderservice.service.OrderService;
-import com.arpanm.orderservice.service.OrderServiceTests;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;

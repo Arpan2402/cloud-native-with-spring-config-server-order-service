@@ -32,8 +32,12 @@ spec:
             - name: SPRING_FLYWAY_URL
               value: jdbc:postgresql://bookstore-db/order_db
             - name: SPRING_PROFILES_ACTIVE
-              value: container
+              value: dev
             - name: SPRING_CLOUD_CONFIG_URI
               value: http://config-server
             - name: APP_CATALOG-SERVICE-URL
               value: http://catalog-service
+            - name: SPRING_RABBITMQ_HOST
+              value: bookstore-rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"

@@ -1,5 +1,6 @@
 package com.arpanm.orderservice.service;
 
+import com.arpanm.orderservice.CustomStreamBridge;
 import com.arpanm.orderservice.book.BookDto;
 import com.arpanm.orderservice.client.BookClient;
 import com.arpanm.orderservice.domain.Order;
@@ -14,26 +15,25 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @ExtendWith(SpringExtension.class)
+@Import(TestChannelBinderConfiguration.class)
+@ContextConfiguration(classes = OrderService.class)
 public class OrderServiceTests {
-
-    @TestConfiguration
-    static class TestConfigurationClass {
-        @Bean
-        public OrderService orderService(OrderRepository orderRepository, BookClient bookClient) {
-            return new OrderService(orderRepository, bookClient);
-        }
-    }
-
     @MockBean
     private OrderRepository orderRepository;
     @MockBean
     private BookClient bookClient;
+    @MockBean
+    private CustomStreamBridge streamBridge;
     @Autowired
     private OrderService orderService;
 
